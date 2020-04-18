@@ -1,0 +1,5 @@
+*.pkg.tar.xz
+st
+src
+pkg
+config.def.h
