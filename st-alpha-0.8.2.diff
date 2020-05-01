@@ -1,5 +1,5 @@
 diff --git a/config.def.h b/config.def.h
-index c39e296..7a7001e 100644
+index 0e01717..e116631 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -82,6 +82,9 @@ char *termname = "st-256color";
@@ -7,7 +7,7 @@ index c39e296..7a7001e 100644
  unsigned int tabspaces = 8;
  
 +/* bg opacity */
-+float alpha = 0.5;
++float alpha = 0.8;
 +
  /* Terminal colors (16 first used in escape sequence) */
  static const char *colorname[] = {
@@ -26,11 +26,11 @@ index c39e296..7a7001e 100644
  unsigned int defaultfg = 7;
 -unsigned int defaultbg = 0;
 +unsigned int defaultbg = 258;
- static unsigned int defaultcs = 1;
+ static unsigned int defaultcs = 256;
  static unsigned int defaultrcs = 257;
  
 diff --git a/config.mk b/config.mk
-index 8235b29..d29d9ab 100644
+index 0cbb002..1d2f0e2 100644
 --- a/config.mk
 +++ b/config.mk
 @@ -16,7 +16,7 @@ PKG_CONFIG = pkg-config
@@ -43,19 +43,19 @@ index 8235b29..d29d9ab 100644
         `$(PKG_CONFIG) --libs freetype2`
  
 diff --git a/st.h b/st.h
-index 1332cf1..c67ebc3 100644
+index 38c61c4..b7634ab 100644
 --- a/st.h
 +++ b/st.h
-@@ -123,3 +123,4 @@ extern char *termname;
+@@ -120,3 +120,4 @@ extern char *termname;
  extern unsigned int tabspaces;
  extern unsigned int defaultfg;
  extern unsigned int defaultbg;
 +extern float alpha;
 diff --git a/x.c b/x.c
-index 9a885f4..9cf9358 100644
+index 0422421..588dec3 100644
 --- a/x.c
 +++ b/x.c
-@@ -119,6 +119,7 @@ typedef struct {
+@@ -98,6 +98,7 @@ typedef struct {
  	XSetWindowAttributes attrs;
  	int scr;
  	int isfixed; /* is fixed geometry? */
@@ -63,7 +63,7 @@ index 9a885f4..9cf9358 100644
  	int l, t; /* left and top offset */
  	int gm; /* geometry mask */
  } XWindow;
-@@ -257,6 +258,7 @@ static char *usedfont = NULL;
+@@ -229,6 +230,7 @@ static char *usedfont = NULL;
  static double usedfontsize = 0;
  static double defaultfontsize = 0;
  
@@ -71,7 +71,7 @@ index 9a885f4..9cf9358 100644
  static char *opt_class = NULL;
  static char **opt_cmd  = NULL;
  static char *opt_embed = NULL;
-@@ -748,7 +750,7 @@ xresize(int col, int row)
+@@ -688,7 +690,7 @@ xresize(int col, int row)
  
  	XFreePixmap(xw.dpy, xw.buf);
  	xw.buf = XCreatePixmap(xw.dpy, xw.win, win.w, win.h,
@@ -80,7 +80,7 @@ index 9a885f4..9cf9358 100644
  	XftDrawChange(xw.draw, xw.buf);
  	xclear(0, 0, win.w, win.h);
  
-@@ -808,6 +810,13 @@ xloadcols(void)
+@@ -748,6 +750,13 @@ xloadcols(void)
  			else
  				die("could not allocate color %d\n", i);
  		}
@@ -94,13 +94,15 @@ index 9a885f4..9cf9358 100644
  	loaded = 1;
  }
  
-@@ -1117,9 +1126,21 @@ xinit(int cols, int rows)
+@@ -1004,11 +1013,23 @@ xinit(int cols, int rows)
  	Window parent;
  	pid_t thispid = getpid();
  	XColor xmousefg, xmousebg;
 +	XWindowAttributes attr;
 +	XVisualInfo vis;
  
+ 	if (!(xw.dpy = XOpenDisplay(NULL)))
+ 		die("can't open display\n");
  	xw.scr = XDefaultScreen(xw.dpy);
 -	xw.vis = XDefaultVisual(xw.dpy, xw.scr);
 +
@@ -117,7 +119,7 @@ index 9a885f4..9cf9358 100644
  
  	/* font */
  	if (!FcInit())
-@@ -1129,7 +1150,7 @@ xinit(int cols, int rows)
+@@ -1018,7 +1039,7 @@ xinit(int cols, int rows)
  	xloadfonts(usedfont, 0);
  
  	/* colors */
@@ -126,7 +128,7 @@ index 9a885f4..9cf9358 100644
  	xloadcols();
  
  	/* adjust fixed window geometry */
-@@ -1149,19 +1170,15 @@ xinit(int cols, int rows)
+@@ -1038,19 +1059,15 @@ xinit(int cols, int rows)
  		| ButtonMotionMask | ButtonPressMask | ButtonReleaseMask;
  	xw.attrs.colormap = xw.cmap;
  
@@ -149,7 +151,7 @@ index 9a885f4..9cf9358 100644
  	XSetForeground(xw.dpy, dc.gc, dc.col[defaultbg].pixel);
  	XFillRectangle(xw.dpy, xw.buf, dc.gc, 0, 0, win.w, win.h);
  
-@@ -2059,6 +2076,9 @@ main(int argc, char *argv[])
+@@ -1894,6 +1911,9 @@ main(int argc, char *argv[])
  	case 'a':
  		allowaltscreen = 0;
  		break;

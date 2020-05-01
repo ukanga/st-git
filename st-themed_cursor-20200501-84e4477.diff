@@ -1,8 +1,19 @@
+From 84e4477a68a38a281eb2fb2b763c447baba624e4 Mon Sep 17 00:00:00 2001
+From: Ukang'a Dickson <ukanga@gmail.com>
+Date: Fri, 1 May 2020 08:45:21 +0300
+Subject: [PATCH] Add st-themed-cursor patch
+
+---
+ config.def.h |  7 +++----
+ config.mk    |  2 +-
+ x.c          | 17 ++---------------
+ 3 files changed, 6 insertions(+), 20 deletions(-)
+
 diff --git a/config.def.h b/config.def.h
-index 22dd2f6..0ea501c 100644
+index 12791fd..2926504 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -142,11 +142,10 @@ static unsigned int cols = 80;
+@@ -144,11 +144,10 @@ static unsigned int cols = 80;
  static unsigned int rows = 24;
  
  /*
@@ -16,22 +27,22 @@ index 22dd2f6..0ea501c 100644
 +static char* mouseshape = "xterm";
  
  /*
-  * Color used to display font attributes when fontconfig selected a font which
+  * Xresources preferences to load at startup
 diff --git a/config.mk b/config.mk
-index 24e5c61..c9a7e38 100644
+index 07a3d14..3f83224 100644
 --- a/config.mk
 +++ b/config.mk
 @@ -17,7 +17,7 @@ INCS = -I$(X11INC) \
         `$(PKG_CONFIG) --cflags fontconfig` \
         `$(PKG_CONFIG) --cflags freetype2` \
         `$(PKG_CONFIG) --cflags harfbuzz`
--LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft -lXrender \
-+LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft -lXcursor -lXrender \
+-LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft -lXrender\
++LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft -lXrender -lXcursor \
         `$(PKG_CONFIG) --libs fontconfig` \
         `$(PKG_CONFIG) --libs freetype2` \
         `$(PKG_CONFIG) --libs harfbuzz`
 diff --git a/x.c b/x.c
-index b26eac7..181a486 100644
+index 7f50e1a..409e644 100644
 --- a/x.c
 +++ b/x.c
 @@ -15,6 +15,7 @@
@@ -42,7 +53,7 @@ index b26eac7..181a486 100644
  
  char *argv0;
  #include "arg.h"
-@@ -1229,23 +1230,9 @@ xinit(int cols, int rows)
+@@ -1226,23 +1227,9 @@ xinit(int cols, int rows)
  	}
  
  	/* white cursor, black outline */
@@ -67,3 +78,6 @@ index b26eac7..181a486 100644
  	xw.xembed = XInternAtom(xw.dpy, "_XEMBED", False);
  	xw.wmdeletewin = XInternAtom(xw.dpy, "WM_DELETE_WINDOW", False);
  	xw.netwmname = XInternAtom(xw.dpy, "_NET_WM_NAME", False);
+-- 
+2.26.2
+

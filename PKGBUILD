@@ -4,7 +4,7 @@
 # Contributor: Scytrin dai Kinthra <scytrin@gmail.com>
 
 pkgname=st-git
-pkgver=0.8.2.r33.g5703aa0
+pkgver=0.8.3.r1.gd6ea0a1
 pkgrel=1
 pkgdesc='Simple virtual terminal emulator for X'
 url='https://st.suckless.org/'
@@ -13,57 +13,42 @@ license=('MIT')
 depends=('libxft')
 makedepends=('ncurses' 'libxext' 'git')
 source=('git://git.suckless.org/st'
-        'st-scrollback-20200504-28ad288.diff'
-        'st-scrollback-mouse-20191024-a2c479c.diff'
-        'st-xresources-20190105-3be4cf1.diff'
-        'st-alpha-0.8.2.diff'
-        'st-invert-0.8.2-1.diff'
-        'st-clipboard-0.8.2-1.diff'
-        'st-ligatures-alpha-scrollback-20200406-28ad288-1.diff'
-        'st-themed_cursor-0.8.2.diff'
-        'st-bold-is-not-bright-20190127-3be4cf1.diff'
+        st-alpha-0.8.2.diff
+        st-scrollback-20200419-72e3f6c.diff
+        st-scrollback-mouse-20191024-a2c479c.diff
+        st-scrollback-mouse-altscreen-20200416-5703aa0.diff
+        st-xresources-20190105-3be4cf1.diff
+        st-invert-0.8.2-1.diff
+        st-clipboard-0.8.3.diff
+        st-ligatures-alpha-scrollback-20200501-d6a8ddd.diff
+        st-themed_cursor-20200501-84e4477.diff
+        st-bold-is-not-bright-20190127-3be4cf1.diff
+        st-my_config-20200501-1d6a1fd.diff
         )
-sha1sums=('SKIP'
-          '7f0da51f25bfdff3a3a91d63f21c4b203849397b'
-          'e457b4819f5233999e21d6df8438931160cd9181'
-          '00d4234c5857d6067cede2a0765caabf6fa27b2d'
-          'afe4f9808fc7a3fc67fcaacec6ff058ed2dcddcf'
-          '97b808a486913607a41f2f30881ba599af5ecfdc'
-          '7e3093ebf5250525a3cc05454c3b66b19dd383bc'
-          'e28c10e654a29688d0d70cee782f884fa7374364'
-          '2b1653d0c5456e13b2029ff7cc99e5a18d1d8292'
-          'bef42114952e4fead262bb1b491112014ac7bc39'
+sha256sums=('SKIP'
+          9c5b4b4f23de80de78ca5ec3739dc6ce5e7f72666186cf4a9c6b614ac90fb285
+          1e41fe17a5ef5a8194eea07422b49d815e2c2bb4d58d84771f793be423005310
+          319458d980195d18fa0f81a6898d58f8d046c5ff982ab872d741f54bb60e267d
+          cb87eb654985da46ff63663407184402393ad3d3013c8795570552fe56a15b9d
+          71c55b796beebecb5e268405f369122fa5a8cf22d992725f00c6c88fe5895f84
+          c89bd1d6bdfb76b3301b5cf4bc66a399f35cdb64f10d3bea852a2d6aa80ef9b0
+          0f5ce33953abce74a9da3088ea35bf067a9a4cfeb9fe6ea9800268ce69e436c0
+          23fe795d4886f566f33eb240b38604fccba0250ca33ea919e338590ff8941e6a
+          eda599b4e2c324ecfc2113c150697f3d35290a22a5926f23f08112d2d7056b13
+          329169acac7ceaf901995d6e0897913089b799d8cd150c7f04c902f4a5b8eab2
+          a7ffcb5b9d771ca4ad304acc64eefc4e58fe0a446b1ec57d08a8cf4198b0f6d3
           )
 provides=("st")
 conflicts=("st")
 
 
 pkgver() {
-    cd "${srcdir}/st"
+    cd "${srcdir}/st" || exit
     git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-    cd "${srcdir}/st"
-
-    echo 'Copying config.def.h to $startdir...'
-    cp config.def.h "${startdir}/"
-
-    echo 'Copying config.h from $startdir if it exists...'
-    [ -f "${startdir}/config.h" ] && cp "${startdir}/config.h" . || true
-
-    sed \
-        -e '/char \*font/s/= .*/= "Fira Code:size=14:antialias=true:autohint=true";/' \
-        -e '/wchar_t \*worddelimiters/s/= .*/= L" '"'"'`\\\"()[]{}<>|";/' \
-        -e '/int defaultcs/s/= .*/= 1;/' \
-        -i config.def.h
-    sed \
-        -e 's/CPPFLAGS =/CPPFLAGS +=/g' \
-        -e 's/CFLAGS =/CFLAGS +=/g' \
-        -e 's/LDFLAGS =/LDFLAGS +=/g' \
-        -e 's/_BSD_SOURCE/_DEFAULT_SOURCE/' \
-        -i config.mk
-    sed '/@tic/d' -i Makefile
+    cd "${srcdir}/st" || exit
 
     for file in "${source[@]}"; do
         if [[ "$file" == "config.h" ]]; then

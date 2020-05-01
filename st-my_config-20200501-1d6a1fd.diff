@@ -1,0 +1,65 @@
+From 1d6a1fde6d4b2a219842af3bfc08c6ac2914d1cd Mon Sep 17 00:00:00 2001
+From: Ukang'a Dickson <ukanga@gmail.com>
+Date: Fri, 1 May 2020 09:03:46 +0300
+Subject: [PATCH] my config
+
+---
+ config.def.h | 6 +++---
+ config.mk    | 8 ++++----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/config.def.h b/config.def.h
+index 2926504..a31a264 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "Fira Code:size=14:antialias=true:autohint=true";
+ static int borderpx = 2;
+ 
+ /*
+@@ -34,7 +34,7 @@ static float chscale = 1.0;
+  *
+  * More advanced example: L" `'\"()[]{}"
+  */
+-wchar_t *worddelimiters = L" ";
++wchar_t *worddelimiters = L" '`\"()[]{}<>|";
+ 
+ /* selection timeouts (in milliseconds) */
+ static unsigned int doubleclicktimeout = 300;
+@@ -124,7 +124,7 @@ static const char *colorname[] = {
+  */
+ unsigned int defaultfg = 7;
+ unsigned int defaultbg = 258;
+-static unsigned int defaultcs = 256;
++static unsigned int defaultcs = 1;
+ static unsigned int defaultrcs = 257;
+ 
+ /*
+diff --git a/config.mk b/config.mk
+index 3f83224..0f4893c 100644
+--- a/config.mk
++++ b/config.mk
+@@ -23,12 +23,12 @@ LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft -lXrender -lXcursor \
+        `$(PKG_CONFIG) --libs harfbuzz`
+ 
+ # flags
+-STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
+-STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
+-STLDFLAGS = $(LIBS) $(LDFLAGS)
++STCPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
++STCFLAGS += $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
++STLDFLAGS += $(LIBS) $(LDFLAGS)
+ 
+ # OpenBSD:
+-#CPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 -D_BSD_SOURCE
++#CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 -D_DEFAULT_SOURCE
+ #LIBS = -L$(X11LIB) -lm -lX11 -lutil -lXft \
+ #       `pkg-config --libs fontconfig` \
+ #       `pkg-config --libs freetype2`
+-- 
+2.26.2
+
