@@ -4,7 +4,7 @@
 # Contributor: Scytrin dai Kinthra <scytrin@gmail.com>
 
 pkgname=st-git
-pkgver=0.8.3.r9.g045a0fa
+pkgver=0.8.3.r19.g9ba7ecf
 pkgrel=1
 pkgdesc='Simple virtual terminal emulator for X'
 url='https://st.suckless.org/'
@@ -36,7 +36,7 @@ sha256sums=('SKIP'
           23fe795d4886f566f33eb240b38604fccba0250ca33ea919e338590ff8941e6a
           eda599b4e2c324ecfc2113c150697f3d35290a22a5926f23f08112d2d7056b13
           329169acac7ceaf901995d6e0897913089b799d8cd150c7f04c902f4a5b8eab2
-          a7ffcb5b9d771ca4ad304acc64eefc4e58fe0a446b1ec57d08a8cf4198b0f6d3
+          c4c0bdfd3c0907461226d4d52cf485fd6599235edb637c97c4cf31f271379b8c
           )
 provides=("st")
 conflicts=("st")
