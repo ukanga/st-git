@@ -22,7 +22,8 @@ source=('git://git.suckless.org/st'
         st-ligatures-alpha-scrollback-20200501-d6a8ddd.diff
         st-themed_cursor-20200501-84e4477.diff
         st-bold-is-not-bright-20190127-3be4cf1.diff
-        st-my_config-20200501-1d6a1fd.diff
+        st-anysize-0.8.1.diff
+        st-myconfig-20200620-3bad79d.diff
         )
 sha256sums=('SKIP'
           9c5b4b4f23de80de78ca5ec3739dc6ce5e7f72666186cf4a9c6b614ac90fb285
@@ -35,7 +36,8 @@ sha256sums=('SKIP'
           23fe795d4886f566f33eb240b38604fccba0250ca33ea919e338590ff8941e6a
           eda599b4e2c324ecfc2113c150697f3d35290a22a5926f23f08112d2d7056b13
           329169acac7ceaf901995d6e0897913089b799d8cd150c7f04c902f4a5b8eab2
-          c4c0bdfd3c0907461226d4d52cf485fd6599235edb637c97c4cf31f271379b8c
+          8118dbc50d2fe07ae10958c65366476d5992684a87a431f7ee772e27d5dee50f
+          e219ecf379420d57a18ef05bab5f1c59c0aa1d8447454dc0b7f4512a09e0523d
           )
 provides=("st")
 conflicts=("st")
