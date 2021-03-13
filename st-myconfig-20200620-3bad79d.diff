@@ -17,9 +17,9 @@ index d2fdfc2..35fedaf 100644
   * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
   */
 -static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-+static char *font = "Fira Code:size=12:antialias=true:autohint=true";
++static char *font = "FiraCode Nerd Font Mono:style=regular:size=14";
  static int borderpx = 2;
- 
+
  /*
 @@ -34,7 +34,7 @@ static float chscale = 1.0;
   *
@@ -27,7 +27,7 @@ index d2fdfc2..35fedaf 100644
   */
 -wchar_t *worddelimiters = L" ";
 +wchar_t *worddelimiters = L" '`\"()[]{}<>|";
- 
+
  /* selection timeouts (in milliseconds) */
  static unsigned int doubleclicktimeout = 300;
 @@ -133,7 +133,7 @@ static const char *colorname[] = {
@@ -37,7 +37,7 @@ index d2fdfc2..35fedaf 100644
 -static unsigned int defaultcs = 256;
 +static unsigned int defaultcs = 1;
  static unsigned int defaultrcs = 257;
- 
+
  /*
 diff --git a/config.mk b/config.mk
 index 43d3b49..1f25c54 100644
@@ -45,7 +45,7 @@ index 43d3b49..1f25c54 100644
 +++ b/config.mk
 @@ -23,12 +23,12 @@ LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft -lXrender -lXcursor \
         `$(PKG_CONFIG) --libs harfbuzz`
- 
+
  # flags
 -STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
 -STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
@@ -53,13 +53,13 @@ index 43d3b49..1f25c54 100644
 +STCPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
 +STCFLAGS += $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
 +STLDFLAGS += $(LIBS) $(LDFLAGS)
- 
+
  # OpenBSD:
 -#CPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 -D_BSD_SOURCE
 +#CPPFLAGS += -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 -D_DEFAULT_SOURCE
  #LIBS = -L$(X11LIB) -lm -lX11 -lutil -lXft \
  #       `$(PKG_CONFIG) --libs fontconfig` \
  #       `$(PKG_CONFIG) --libs freetype2`
--- 
+--
 2.25.1
 

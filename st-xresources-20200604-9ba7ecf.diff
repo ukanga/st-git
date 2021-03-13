@@ -1,7 +1,7 @@
-From eae10887846b09139731cf034f03678c7ef3114c Mon Sep 17 00:00:00 2001
-From: Ukang'a Dickson <ukanga@users.noreply.github.com>
-Date: Tue, 12 May 2020 21:51:36 +0300
-Subject: [PATCH] XResources
+From 2752a599ee01305a435729bfacf43b1dde7cf0ef Mon Sep 17 00:00:00 2001
+From: Benji Encalada Mora <benji@encalada.dev>
+Date: Thu, 4 Jun 2020 00:41:10 -0500
+Subject: [PATCH] fix: replace xfps and actionfps variables
 
 ---
  config.def.h | 36 ++++++++++++++++++++++++
@@ -9,7 +9,7 @@ Subject: [PATCH] XResources
  2 files changed, 110 insertions(+), 4 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
-index 0e7fb57..ec748a7 100644
+index 6f05dce..9b99782 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -168,6 +168,42 @@ static unsigned int defaultattr = 11;
@@ -56,7 +56,7 @@ index 0e7fb57..ec748a7 100644
   * Internal mouse shortcuts.
   * Beware that overloading Button1 will disable the selection.
 diff --git a/x.c b/x.c
-index a36b611..dc14ce9 100644
+index 210f184..76f167f 100644
 --- a/x.c
 +++ b/x.c
 @@ -14,6 +14,7 @@
@@ -67,7 +67,7 @@ index a36b611..dc14ce9 100644
  
  char *argv0;
  #include "arg.h"
-@@ -46,6 +47,19 @@ typedef struct {
+@@ -45,6 +46,19 @@ typedef struct {
  	signed char appcursor; /* application cursor */
  } Key;
  
@@ -87,7 +87,7 @@ index a36b611..dc14ce9 100644
  /* X modifiers */
  #define XK_ANY_MOD    UINT_MAX
  #define XK_NO_MOD     0
-@@ -839,8 +853,8 @@ xclear(int x1, int y1, int x2, int y2)
+@@ -828,8 +842,8 @@ xclear(int x1, int y1, int x2, int y2)
  void
  xhints(void)
  {
@@ -98,16 +98,16 @@ index a36b611..dc14ce9 100644
  	XWMHints wm = {.flags = InputHint, .input = 1};
  	XSizeHints *sizeh;
  
-@@ -1117,8 +1131,6 @@ xinit(int cols, int rows)
- 	XWindowAttributes attr;
- 	XVisualInfo vis;
+@@ -1104,8 +1118,6 @@ xinit(int cols, int rows)
+ 	pid_t thispid = getpid();
+ 	XColor xmousefg, xmousebg;
  
 -	if (!(xw.dpy = XOpenDisplay(NULL)))
 -		die("can't open display\n");
  	xw.scr = XDefaultScreen(xw.dpy);
+ 	xw.vis = XDefaultVisual(xw.dpy, xw.scr);
  
- 	if (!(opt_embed && (parent = strtol(opt_embed, NULL, 0)))) {
-@@ -1984,6 +1996,59 @@ run(void)
+@@ -1964,6 +1976,59 @@ run(void)
  	}
  }
  
@@ -167,7 +167,7 @@ index a36b611..dc14ce9 100644
  void
  usage(void)
  {
-@@ -2060,6 +2125,11 @@ run:
+@@ -2037,6 +2102,11 @@ run:
  
  	setlocale(LC_CTYPE, "");
  	XSetLocaleModifiers("");
