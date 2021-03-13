@@ -24,6 +24,7 @@ source=('git://git.suckless.org/st'
         st-themed_cursor-20200501-84e4477.diff
         st-bold-is-not-bright-20190127-3be4cf1.diff
         st-anysize-0.8.1.diff
+	st-dynamic-cursor-color-0.8.4.diff
         st-myconfig-20200620-3bad79d.diff
         )
 sha256sums=('SKIP'
@@ -38,6 +39,7 @@ sha256sums=('SKIP'
           eda599b4e2c324ecfc2113c150697f3d35290a22a5926f23f08112d2d7056b13
           329169acac7ceaf901995d6e0897913089b799d8cd150c7f04c902f4a5b8eab2
           8118dbc50d2fe07ae10958c65366476d5992684a87a431f7ee772e27d5dee50f
+	  c942f73cd576c2d275dea21a733bc8bcfe66fb186b86563b03d42a123fbe93b8
           378e62c33f96cfc949d06f8cd3fdf7fa74d435f154e0d35350461408860446b2
           )
 provides=("st")
