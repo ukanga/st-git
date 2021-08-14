@@ -4,7 +4,7 @@
 # Contributor: Scytrin dai Kinthra <scytrin@gmail.com>
 
 pkgname=st-git
-pkgver=0.8.4.r2.g4ef0cbd
+pkgver=0.8.4.r5.g2ec571a
 pkgrel=1
 pkgdesc='Simple virtual terminal emulator for X'
 url='https://st.suckless.org/'
@@ -14,7 +14,7 @@ depends=('libxft')
 makedepends=('ncurses' 'libxext' 'git')
 source=('git://git.suckless.org/st'
         st-alpha-0.8.2.diff
-        st-scrollback-20200419-72e3f6c.diff
+	st-scrollback-20210507-4536f46.diff
         st-scrollback-mouse-20191024-a2c479c.diff
         st-scrollback-mouse-altscreen-20200416-5703aa0.diff
 	st-xresources-20200604-9ba7ecf.diff
@@ -26,11 +26,11 @@ source=('git://git.suckless.org/st'
         st-anysize-0.8.1.diff
 	st-dynamic-cursor-color-0.8.4.diff
         st-myconfig-20200620-3bad79d.diff
-        )
+         )
 sha256sums=('SKIP'
           9c5b4b4f23de80de78ca5ec3739dc6ce5e7f72666186cf4a9c6b614ac90fb285
-          1e41fe17a5ef5a8194eea07422b49d815e2c2bb4d58d84771f793be423005310
-          319458d980195d18fa0f81a6898d58f8d046c5ff982ab872d741f54bb60e267d
+	  19d8f4e7fd0d1933dc6fcf6c7333db08e1b40fc75795464660c4d723eb62511c
+	  319458d980195d18fa0f81a6898d58f8d046c5ff982ab872d741f54bb60e267d
           cb87eb654985da46ff63663407184402393ad3d3013c8795570552fe56a15b9d
 	  5be9b40d2b51761685f6503e92028a7858cc6571a8867b88612fce8a70514d5b
           c89bd1d6bdfb76b3301b5cf4bc66a399f35cdb64f10d3bea852a2d6aa80ef9b0
