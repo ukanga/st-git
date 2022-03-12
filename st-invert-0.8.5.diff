@@ -1,34 +1,44 @@
+commit 8f5d0a80de1f4a52519dfaa36b7bce116d867834
+Author: Ukang'a Dickson <ukanga@users.noreply.github.com>
+Date:   Sat Mar 12 22:13:59 2022 +0300
+
+    Invert colorscheme
+
+    This patch adds a keybinding that lets you invert the current
+    colorscheme of st. This provides a simple way to temporarily
+    switch to a light colorscheme if you use a dark colorscheme
+    or visa-versa.
+
 diff --git a/config.def.h b/config.def.h
-index 7a7001e..22dd2f6 100644
+index 7558506..2257efd 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -230,6 +230,7 @@ static Shortcut shortcuts[] = {
+@@ -243,6 +243,7 @@ static Shortcut shortcuts[] = {
  	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
  	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
  	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 +	{ TERMMOD,              XK_X,           invert,         { }       },
  };
- 
+
  /*
 diff --git a/x.c b/x.c
-index 9cf9358..cd995a7 100644
+index c2c7ead..7485d98 100644
 --- a/x.c
 +++ b/x.c
-@@ -73,6 +73,7 @@ static void zoom(const Arg *);
+@@ -76,6 +76,7 @@ static void zoom(const Arg *);
  static void zoomabs(const Arg *);
  static void zoomreset(const Arg *);
  static void ttysend(const Arg *);
 +static void invert(const Arg *);
- 
+
  /* config.h for applying patches and the configuration. */
  #include "config.h"
-@@ -268,8 +269,28 @@ static char *opt_line  = NULL;
- static char *opt_name  = NULL;
+@@ -273,6 +274,26 @@ static char *opt_name  = NULL;
  static char *opt_title = NULL;
- 
+
+ static uint buttons; /* bit field of pressed buttons */
 +static int invertcolors = 0;
- static int oldbutton = 3; /* button event on startup: 3 = release */
- 
++
 +void
 +invert(const Arg *dummy)
 +{
@@ -47,11 +57,10 @@ index 9cf9358..cd995a7 100644
 +	XftColorAllocValue(xw.dpy, xw.vis, xw.cmap, &rc, &inverted);
 +	return inverted;
 +}
-+
+
  void
  clipcopy(const Arg *dummy)
- {
-@@ -843,9 +864,12 @@ xsetcolorname(int x, const char *name)
+@@ -883,9 +904,11 @@ xsetcolorname(int x, const char *name)
  void
  xclear(int x1, int y1, int x2, int y2)
  {
@@ -60,17 +69,16 @@ index 9cf9358..cd995a7 100644
 -			x1, y1, x2-x1, y2-y1);
 +	Color c;
 +	c = dc.col[IS_SET(MODE_REVERSE)? defaultfg : defaultbg];
-+	if (invertcolors) {
++	if (invertcolors)
 +		c = invertedcolor(&c);
-+	}
 +	XftDrawRect(xw.draw, &c, x1, y1, x2-x1, y2-y1);
  }
- 
+
  void
-@@ -1460,6 +1484,13 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
+@@ -1489,6 +1512,13 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
  	if (base.mode & ATTR_INVISIBLE)
  		fg = bg;
- 
+
 +	if (invertcolors) {
 +		revfg = invertedcolor(fg);
 +		revbg = invertedcolor(bg);
@@ -80,4 +88,14 @@ index 9cf9358..cd995a7 100644
 +
  	/* Intelligent cleaning up of the borders. */
  	if (x == 0) {
- 		xclear(0, (y == 0)? 0 : winy, borderpx,
+ 		xclear(0, (y == 0)? 0 : winy, win.vborderpx,
+@@ -1599,6 +1629,9 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og, Line line, int le
+ 		}
+ 	}
+
++	if (invertcolors)
++		drawcol = invertedcolor(&drawcol);
++
+ 	/* draw the new one */
+ 	if (IS_SET(MODE_FOCUSED)) {
+ 		switch (win.cursor) {

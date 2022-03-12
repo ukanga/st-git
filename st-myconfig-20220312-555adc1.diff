@@ -1,0 +1,28 @@
+commit 1c4182de6b8b382d393246753b2b1f54c33d8b6e
+Author: Ukang'a Dickson <ukanga@users.noreply.github.com>
+Date:   Sat Mar 12 21:34:20 2022 +0300
+
+    font size 24, advanced word delimiters
+
+diff --git a/config.def.h b/config.def.h
+index 7558506..504ac5a 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "Liberation Mono:pixelsize=24:antialias=true:autohint=true";
+ static int borderpx = 2;
+ 
+ /*
+@@ -34,7 +34,7 @@ static float chscale = 1.0;
+  *
+  * More advanced example: L" `'\"()[]{}"
+  */
+-wchar_t *worddelimiters = L" ";
++wchar_t *worddelimiters = L" '`\"()[]{}<>|";
+ 
+ /* selection timeouts (in milliseconds) */
+ static unsigned int doubleclicktimeout = 300;
